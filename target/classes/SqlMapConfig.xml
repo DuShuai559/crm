@@ -10,6 +10,7 @@
     
     <typeAliases>
         <package name="com.myself.crm.setting.domain"/>
+        <package name="com.myself.crm.workbench.activity.domain"/>
     </typeAliases>
     
     <environments default="development">
@@ -26,5 +27,6 @@
 
     <mappers>
         <package name="com.myself.crm.setting.mapper"/>
+        <package name="com.myself.crm.workbench.activity.mapper"/>
     </mappers>
 </configuration>

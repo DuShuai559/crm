@@ -1,4 +1,4 @@
-package com.myself.crm.filter;
+package com.myself.crm.web.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

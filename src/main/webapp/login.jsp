@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -14,6 +13,9 @@
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(function () {
+            if(window.top != window){
+                window.top.location = window.location;
+            }
             function login(){
                 var loginName = $.trim($("#loginName").val());
                 var loginPwd = $.trim($("#loginPwd").val());

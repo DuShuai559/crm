@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myself.crm.workbench.activity.mapper.ActivityMapper">
+    <!--
+        List<Users> getAllUser();
+    -->
+    <select id="getAllUser" resultType="users">
+        select * from tbl_user;
+    </select>
+
+    <!--
+        int saveActivity(Activity activity);
+    -->
+    <insert id="saveActivity">
+        insert into tbl_activity(id, owner, name, startDate, endDate, cost, description, createTime, createBy)
+        values(#{id},#{owner},#{name},#{startDate},#{endDate},#{cost},#{description},#{createTime},#{createBy})
+    </insert>
+
+
+    <!--
+        List<Activity> queryActivity();
+    -->
+    <select id="queryActivity" resultType="activity">
+        select a.id, a.name, u.name as owner, a.startDate, a.endDate
+        from tbl_activity a
+        join tbl_user u on a.owner = u.id
+        <where>
+            <if test="name != null and name != ''">
+                and a.name like '%' #{name} '%'
+            </if>
+
+            <if test="owner  != null and owner != ''">
+                and u.name like '%' #{owner} '%'
+            </if>
+
+            <if test="startDate  != null and startDate != ''">
+                and a.startDate &gt; #{startDate}
+            </if>
+
+            <if test="endDate  != null and endDate != ''">
+                and a.endDate &gt; #{endDate}
+            </if>
+        </where>
+        order by a.createTime desc
+        limit #{skipSize},#{pageSize}
+    </select>
+
+
+    <!--
+        int countActivity();
+    -->
+    <select id="countActivity" resultType="int">
+        select count(*)
+        from tbl_activity a
+        join tbl_user u on a.owner = u.id
+        <where>
+            <if test="name != null and name != ''">
+                and a.name like '%'#{name}'%'
+            </if>
+
+            <if test="owner  != null and owner != ''">
+                and u.name like '%'#{owner}'%'
+            </if>
+
+            <if test="startDate  != null and startDate != ''">
+                and a.startDate &gt; #{startDate}
+            </if>
+
+            <if test="endDate  != null and endDate != ''">
+                and a.endDate &gt; #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <!--
+        boolean deleteActivity(String[] args);
+    -->
+    <delete id="deleteActivity" >
+        delete from tbl_activity
+        where id in
+        <foreach collection="array" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+    </delete>
+
+    <!--<resultMap id="activityMap" type="emp">
+        <result property="name" column="name"></result>
+        <result property="startDate" column="startDate"></result>
+        <result property="endDate" column="endDate"></result>
+        <association property="activity" javaType="activity">
+            <result property="name" column="uname"></result>
+        </association>
+    </resultMap>
+    <select id="queryActivity" resultMap="activityMap">
+        select name, u.name uname, startDate, endDate from tbl_activity inner join tbl_user u where u.id = tbl_activity.owner
+    </select>-->
+
+</mapper>
